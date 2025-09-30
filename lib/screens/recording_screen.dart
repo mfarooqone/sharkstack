@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../controllers/camera_controller.dart';
@@ -17,8 +18,35 @@ import '../widgets/camera_zoom_controls.dart';
 ///
 /// Main camera recording interface with full-screen camera preview,
 /// zoom controls, settings, and recording functionality.
-class RecordingScreen extends StatelessWidget {
+class RecordingScreen extends StatefulWidget {
   const RecordingScreen({super.key});
+
+  @override
+  State<RecordingScreen> createState() => _RecordingScreenState();
+}
+
+class _RecordingScreenState extends State<RecordingScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Lock orientation to portrait when entering recording screen
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
+
+  @override
+  void dispose() {
+    // Restore orientation freedom when leaving recording screen
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

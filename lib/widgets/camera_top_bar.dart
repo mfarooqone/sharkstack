@@ -14,44 +14,34 @@ class CameraTopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
-
     return Positioned(
-      top: MediaQuery.of(context).padding.top + (isLandscape ? 10.h : 20.h),
-      left: isLandscape ? 10.w : 20.w,
-      right: isLandscape ? 10.w : 20.w,
+      top: MediaQuery.of(context).padding.top + 20.h,
+      left: 20.w,
+      right: 20.w,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildCloseButton(isLandscape),
-          _buildUploadIndicator(isLandscape),
-        ],
+        children: [_buildCloseButton(), _buildUploadIndicator()],
       ),
     );
   }
 
-  Widget _buildCloseButton(bool isLandscape) {
+  Widget _buildCloseButton() {
     return Container(
-      width: isLandscape ? 25.w : 50.w,
-      height: isLandscape ? 25.w : 50.w,
+      width: 50.w,
+      height: 50.w,
       decoration: BoxDecoration(
         color: AppColors.black.withValues(alpha: 0.6),
         shape: BoxShape.circle,
       ),
       child: IconButton(
         onPressed: () => Get.back(),
-        icon: Icon(
-          Icons.close,
-          color: AppColors.white,
-          size: isLandscape ? 12.sp : 24.sp,
-        ),
+        icon: Icon(Icons.close, color: AppColors.white, size: 24.sp),
       ),
     );
   }
 
-  Widget _buildUploadIndicator(bool isLandscape) {
+  Widget _buildUploadIndicator() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -63,42 +53,36 @@ class CameraTopBar extends StatelessWidget {
               style: AppTextStyle.bodySmall.copyWith(
                 color: AppColors.white,
                 fontWeight: FontWeight.bold,
-                fontSize: isLandscape ? 8.sp : 12.sp,
               ),
             ),
             child: Container(
-              width: isLandscape ? 25.w : 40.w,
-              height: isLandscape ? 25.w : 40.w,
+              width: 40.w,
+              height: 40.w,
               decoration: BoxDecoration(
                 color: AppColors.black.withValues(alpha: 0.3),
                 shape: BoxShape.circle,
               ),
               child: RotatedBox(
                 quarterTurns: 3,
-                child: Icon(
-                  Icons.logout,
-                  color: AppColors.white,
-                  size: isLandscape ? 14.sp : 24.sp,
-                ),
+                child: Icon(Icons.logout, color: AppColors.white, size: 24.sp),
               ),
             ),
           ),
         ),
-        SizedBox(height: isLandscape ? 8.w : 16.w),
+        SizedBox(height: 16.w),
         Container(
           decoration: BoxDecoration(
             color: AppColors.black.withValues(alpha: 0.6),
             shape: BoxShape.circle,
           ),
           child: Padding(
-            padding: EdgeInsets.all(isLandscape ? 6.w : 12.w),
+            padding: EdgeInsets.all(12.w),
             child: Center(
               child: Text(
                 'SS2',
                 style: AppTextStyle.bodySmall.copyWith(
                   color: AppColors.pink,
                   fontWeight: FontWeight.bold,
-                  fontSize: isLandscape ? 8.sp : 12.sp,
                 ),
               ),
             ),

@@ -15,31 +15,28 @@ class CameraActionBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
-
     return Positioned(
       bottom: 0,
       left: 0,
       right: 0,
       child: Container(
-        height: isLandscape ? 60.h : 100.h,
+        height: 100.h,
         color: AppColors.black,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _buildUploadMedia(isLandscape),
-            _buildDivider(isLandscape),
-            _buildSaveToggle(isLandscape),
-            _buildDivider(isLandscape),
-            _buildLiveButton(isLandscape),
+            _buildUploadMedia(),
+            _buildDivider(),
+            _buildSaveToggle(),
+            _buildDivider(),
+            _buildLiveButton(),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildUploadMedia(bool isLandscape) {
+  Widget _buildUploadMedia() {
     return GestureDetector(
       onTap: () => controller.uploadMedia(),
       child: Column(
@@ -50,24 +47,19 @@ class CameraActionBar extends StatelessWidget {
             style: AppTextStyle.bodySmall.copyWith(
               color: AppColors.white,
               fontWeight: FontWeight.bold,
-              fontSize: isLandscape ? 8.sp : 12.sp,
             ),
           ),
-          SizedBox(height: isLandscape ? 6.h : 13.h),
+          SizedBox(height: 13.h),
           RotatedBox(
             quarterTurns: 3,
-            child: Icon(
-              Icons.logout,
-              color: AppColors.white,
-              size: isLandscape ? 14.sp : 24.sp,
-            ),
+            child: Icon(Icons.logout, color: AppColors.white, size: 24.sp),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildSaveToggle(bool isLandscape) {
+  Widget _buildSaveToggle() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -76,13 +68,12 @@ class CameraActionBar extends StatelessWidget {
           style: AppTextStyle.bodySmall.copyWith(
             color: AppColors.white,
             fontWeight: FontWeight.bold,
-            fontSize: isLandscape ? 8.sp : 12.sp,
           ),
         ),
-        SizedBox(height: isLandscape ? 4.h : 8.h),
+        SizedBox(height: 8.h),
         Obx(
           () => Transform.scale(
-            scale: isLandscape ? 0.5 : 0.7,
+            scale: 0.7,
             child: Switch(
               value: controller.saveToDevice.value,
               onChanged: (value) => controller.toggleSaveToDevice(),
@@ -97,36 +88,28 @@ class CameraActionBar extends StatelessWidget {
     );
   }
 
-  Widget _buildLiveButton(bool isLandscape) {
+  Widget _buildLiveButton() {
     return Obx(
       () => GestureDetector(
         onTap: () => controller.toggleLiveStreaming(),
         child: Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: isLandscape ? 12.w : 20.w,
-            vertical: isLandscape ? 6.h : 12.h,
-          ),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
           decoration: BoxDecoration(
             color: controller.isLiveStreaming.value
                 ? AppColors.red
                 : AppColors.purple,
-            borderRadius: BorderRadius.circular(isLandscape ? 15.r : 25.r),
+            borderRadius: BorderRadius.circular(25.r),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
-                Icons.wifi,
-                color: AppColors.white,
-                size: isLandscape ? 12.sp : 20.sp,
-              ),
-              SizedBox(width: isLandscape ? 4.w : 8.w),
+              Icon(Icons.wifi, color: AppColors.white, size: 20.sp),
+              SizedBox(width: 8.w),
               Text(
                 AppLabels.live,
                 style: AppTextStyle.bodySmall.copyWith(
                   color: AppColors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: isLandscape ? 8.sp : 12.sp,
                 ),
               ),
             ],
@@ -136,9 +119,9 @@ class CameraActionBar extends StatelessWidget {
     );
   }
 
-  Widget _buildDivider(bool isLandscape) {
+  Widget _buildDivider() {
     return VerticalDivider(
-      width: isLandscape ? 12.w : 20.w,
+      width: 20.w,
       color: AppColors.white.withValues(alpha: 0.3),
     );
   }
