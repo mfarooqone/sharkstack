@@ -11,29 +11,36 @@ class CameraBottomControls extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     return Positioned(
-      bottom: MediaQuery.of(context).padding.bottom + 110.h,
+      bottom:
+          MediaQuery.of(context).padding.bottom + (isLandscape ? 60.h : 110.h),
       left: 0,
       right: 0,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildSettingsButton(),
-          _buildRecordButton(),
-          _buildCameraInfoButton(),
+          _buildSettingsButton(isLandscape),
+          _buildRecordButton(isLandscape),
+          _buildCameraInfoButton(isLandscape),
         ],
       ),
     );
   }
 
-  Widget _buildSettingsButton() {
+  Widget _buildSettingsButton(bool isLandscape) {
     return GestureDetector(
       onTap: () => controller.toggleSettingsSheet(),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+        padding: EdgeInsets.symmetric(
+          horizontal: isLandscape ? 12.w : 20.w,
+          vertical: isLandscape ? 6.h : 12.h,
+        ),
         decoration: BoxDecoration(
           color: Colors.black.withValues(alpha: 0.6),
-          borderRadius: BorderRadius.circular(25.r),
+          borderRadius: BorderRadius.circular(isLandscape ? 15.r : 25.r),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -42,19 +49,23 @@ class CameraBottomControls extends StatelessWidget {
               'Settings',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 12.sp,
+                fontSize: isLandscape ? 8.sp : 12.sp,
                 fontWeight: FontWeight.w500,
               ),
             ),
-            SizedBox(width: 8.w),
-            Icon(Icons.settings, color: Colors.white, size: 16.sp),
+            SizedBox(width: isLandscape ? 4.w : 8.w),
+            Icon(
+              Icons.settings,
+              color: Colors.white,
+              size: isLandscape ? 10.sp : 16.sp,
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildRecordButton() {
+  Widget _buildRecordButton(bool isLandscape) {
     return GestureDetector(
       onTap: () {
         if (controller.isRecording.value) {
@@ -64,29 +75,31 @@ class CameraBottomControls extends StatelessWidget {
         }
       },
       child: Container(
-        width: 60.w,
-        height: 60.w,
+        width: isLandscape ? 40.w : 60.w,
+        height: isLandscape ? 40.w : 60.w,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: Colors.red,
           border: Border.all(
             color: Colors.red.withValues(alpha: 0.5),
-            width: 4,
+            width: isLandscape ? 2 : 4,
           ),
         ),
         child: Center(
           child: controller.isRecording.value
               ? Container(
-                  width: 30.w,
-                  height: 30.w,
+                  width: isLandscape ? 20.w : 30.w,
+                  height: isLandscape ? 20.w : 30.w,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(
+                      isLandscape ? 2.r : 4.r,
+                    ),
                   ),
                 )
               : Container(
-                  width: 60.w,
-                  height: 60.w,
+                  width: isLandscape ? 40.w : 60.w,
+                  height: isLandscape ? 40.w : 60.w,
                   decoration: const BoxDecoration(
                     color: Colors.red,
                     shape: BoxShape.circle,
@@ -97,25 +110,32 @@ class CameraBottomControls extends StatelessWidget {
     );
   }
 
-  Widget _buildCameraInfoButton() {
+  Widget _buildCameraInfoButton(bool isLandscape) {
     return GestureDetector(
       onTap: () => controller.toggleSettingsSheet(),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+        padding: EdgeInsets.symmetric(
+          horizontal: isLandscape ? 12.w : 20.w,
+          vertical: isLandscape ? 6.h : 12.h,
+        ),
         decoration: BoxDecoration(
           color: Colors.black.withValues(alpha: 0.6),
-          borderRadius: BorderRadius.circular(25.r),
+          borderRadius: BorderRadius.circular(isLandscape ? 15.r : 25.r),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.camera_alt, color: Colors.white, size: 16.sp),
-            SizedBox(width: 8.w),
+            Icon(
+              Icons.camera_alt,
+              color: Colors.white,
+              size: isLandscape ? 10.sp : 16.sp,
+            ),
+            SizedBox(width: isLandscape ? 4.w : 8.w),
             Text(
               '24mm',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 12.sp,
+                fontSize: isLandscape ? 8.sp : 12.sp,
                 fontWeight: FontWeight.w500,
               ),
             ),
