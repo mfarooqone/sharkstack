@@ -6,18 +6,10 @@ import 'screens/home_screen.dart';
 import 'screens/recording_screen.dart';
 import 'utils/app_colors.dart';
 
-/// Task Shark App Entry Point
-///
-/// A Flutter video recording application with camera controls,
-/// zoom functionality, and settings management.
 void main() {
   runApp(const TaskSharkApp());
 }
 
-/// Main Application Widget
-///
-/// Configures the app with GetX state management, responsive design,
-/// and dark theme with pink accent colors.
 class TaskSharkApp extends StatelessWidget {
   const TaskSharkApp({super.key});
 
@@ -39,7 +31,6 @@ class TaskSharkApp extends StatelessWidget {
     );
   }
 
-  /// Build app theme with dark colors and pink accents
   ThemeData _buildTheme() {
     return ThemeData(
       primarySwatch: Colors.pink,
@@ -56,7 +47,6 @@ class TaskSharkApp extends StatelessWidget {
     );
   }
 
-  /// Define app routes
   List<GetPage> _buildRoutes() {
     return [
       GetPage(name: '/', page: () => const HomeScreen()),

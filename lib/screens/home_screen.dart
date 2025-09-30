@@ -36,7 +36,6 @@ class HomeScreen extends StatelessWidget {
 
   Widget _buildTopSection() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         // Uploaders badge
         Container(
@@ -53,139 +52,18 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ),
-
-        // Settings or menu button
-        IconButton(
-          onPressed: () {
-            // Show settings or menu
-          },
-          icon: const Icon(Icons.menu, color: AppColors.white),
-        ),
       ],
     );
   }
 
   Widget _buildMainContent() {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Motivational message
-          Text(
-            AppLabels.motivationalMessage,
-            textAlign: TextAlign.center,
-            style: AppTextStyle.titleMedium.copyWith(
-              color: AppColors.white,
-              height: 1.4,
-            ),
-          ),
-
-          SizedBox(height: 40.h),
-
-          // Additional content or features can be added here
-          _buildFeatureCards(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFeatureCards() {
-    return Column(
-      children: [
-        _buildFeatureCard(
-          icon: Icons.video_library,
-          title: AppLabels.videoLibrary,
-          subtitle: AppLabels.manageRecordings,
-          onTap: () {
-            // Navigate to video library
-          },
-        ),
-
-        SizedBox(height: 16.h),
-
-        _buildFeatureCard(
-          icon: Icons.cloud_upload,
-          title: AppLabels.uploadHistory,
-          subtitle: AppLabels.viewUploads,
-          onTap: () {
-            // Navigate to upload history
-          },
-        ),
-
-        SizedBox(height: 16.h),
-
-        _buildFeatureCard(
-          icon: Icons.analytics,
-          title: AppLabels.analytics,
-          subtitle: AppLabels.trackProgress,
-          onTap: () {
-            // Navigate to analytics
-          },
-        ),
-      ],
-    );
-  }
-
-  Widget _buildFeatureCard({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.all(16.w),
-        decoration: BoxDecoration(
-          color: AppColors.white.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(12.r),
-          border: Border.all(
-            color: AppColors.white.withValues(alpha: 0.2),
-            width: 1,
-          ),
-        ),
-        child: Row(
-          children: [
-            Container(
-              padding: EdgeInsets.all(12.w),
-              decoration: BoxDecoration(
-                color: AppColors.pink.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              child: Icon(icon, color: AppColors.pink, size: 24.sp),
-            ),
-
-            SizedBox(width: 16.w),
-
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: AppTextStyle.titleMedium.copyWith(
-                      color: AppColors.white,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(height: 4.h),
-                  Text(
-                    subtitle,
-                    style: AppTextStyle.bodySmall.copyWith(
-                      color: AppColors.white.withValues(alpha: 0.7),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            Icon(
-              Icons.arrow_forward_ios,
-              color: AppColors.white.withValues(alpha: 0.5),
-              size: 16.sp,
-            ),
-          ],
+      child: Text(
+        AppLabels.motivationalMessage,
+        textAlign: TextAlign.center,
+        style: AppTextStyle.titleMedium.copyWith(
+          color: AppColors.white,
+          height: 1.4,
         ),
       ),
     );
@@ -212,7 +90,10 @@ class HomeScreen extends StatelessWidget {
           height: double.infinity,
           decoration: BoxDecoration(
             gradient: const LinearGradient(
-              colors: [AppColors.pink, AppColors.purple],
+              colors: [
+                AppColors.pink,
+                Color(0xFF8E24AA),
+              ], // Pink to magenta gradient
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
             ),
@@ -222,7 +103,11 @@ class HomeScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.videocam, color: AppColors.white, size: 24.sp),
+                Icon(
+                  Icons.video_call_outlined,
+                  color: AppColors.white,
+                  size: 24.sp,
+                ),
                 SizedBox(width: 8.w),
                 Text(
                   AppLabels.record,
