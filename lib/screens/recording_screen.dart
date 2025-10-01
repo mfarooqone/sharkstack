@@ -42,7 +42,9 @@ class RecordingScreen extends StatelessWidget {
                 : CameraTopBar(controller: controller),
 
             // Zoom controls in the middle
-            CameraZoomControls(controller: controller),
+            isLandscape
+                ? CameraZoomControlsLandscape(controller: controller)
+                : CameraZoomControls(controller: controller),
 
             // Bottom controls with settings and record button
             // CameraBottomControls(controller: controller),
