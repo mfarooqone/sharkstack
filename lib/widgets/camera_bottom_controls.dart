@@ -15,13 +15,15 @@ class CameraBottomControls extends StatelessWidget {
       bottom: MediaQuery.of(context).padding.bottom + 110.h,
       left: 0,
       right: 0,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _buildSettingsButton(),
-          _buildRecordButton(),
-          _buildCameraInfoButton(),
-        ],
+      child: Builder(
+        builder: (context) => Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _buildSettingsButton(),
+            _buildRecordButton(context),
+            _buildCameraInfoButton(),
+          ],
+        ),
       ),
     );
   }
@@ -54,13 +56,15 @@ class CameraBottomControls extends StatelessWidget {
     );
   }
 
-  Widget _buildRecordButton() {
+  Widget _buildRecordButton(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        final isLandscape =
+            MediaQuery.of(context).orientation == Orientation.landscape;
         if (controller.isRecording.value) {
           controller.stopRecording();
         } else {
-          controller.startRecording();
+          controller.startRecording(isLandscape: isLandscape);
         }
       },
       child: Container(
@@ -140,7 +144,7 @@ class CameraBottomControlsLandscape extends StatelessWidget {
         children: [
           _buildCameraInfoButton(),
           SizedBox(height: 4.h),
-          _buildRecordButton(),
+          Builder(builder: (context) => _buildRecordButton()),
           SizedBox(height: 4.h),
           _buildSettingsButton(),
         ],
@@ -177,43 +181,49 @@ class CameraBottomControlsLandscape extends StatelessWidget {
   }
 
   Widget _buildRecordButton() {
-    return GestureDetector(
-      onTap: () {
-        if (controller.isRecording.value) {
-          controller.stopRecording();
-        } else {
-          controller.startRecording();
-        }
-      },
-      child: Container(
-        width: 30.w,
-        height: 30.w,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: controller.isRecording.value
-              ? Colors
-                    .red // Darker red when recording
-              : Colors.red.withValues(
-                  alpha: 0.2,
-                ), // Solid bright red when not recording
-        ),
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.all(4.w),
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: controller.isRecording.value
-                    ? Colors
-                          .red // Darker red when recording
-                    : Colors.red.withValues(
-                        alpha: 0.2,
-                      ), // Solid bright red when not recording
+    return Builder(
+      builder: (context) {
+        return GestureDetector(
+          onTap: () {
+            final isLandscape =
+                MediaQuery.of(context).orientation == Orientation.landscape;
+            if (controller.isRecording.value) {
+              controller.stopRecording();
+            } else {
+              controller.startRecording(isLandscape: isLandscape);
+            }
+          },
+          child: Container(
+            width: 30.w,
+            height: 30.w,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: controller.isRecording.value
+                  ? Colors
+                        .red // Darker red when recording
+                  : Colors.red.withValues(
+                      alpha: 0.2,
+                    ), // Solid bright red when not recording
+            ),
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.all(4.w),
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: controller.isRecording.value
+                        ? Colors
+                              .red // Darker red when recording
+                        : Colors.red.withValues(
+                            alpha: 0.2,
+                          ), // Solid bright red when not recording
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 

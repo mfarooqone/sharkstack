@@ -67,7 +67,7 @@ class RecordingScreen extends StatelessWidget {
 
                         // Settings bottom sheet (only shown when settings are open)
                         if (controller.showSettingsSheet.value)
-                          CameraSettingsSheetLandscape(controller: controller),
+                          CameraSettingsSheet(controller: controller),
                       ],
                     ),
                   ),

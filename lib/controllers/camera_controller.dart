@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
@@ -149,11 +150,23 @@ class CameraRecordingController extends GetxController {
     }
   }
 
-  /// Start video recording
-  Future<void> startRecording() async {
+  /// Start video recording with current orientation
+  Future<void> startRecording({required bool isLandscape}) async {
     if (!isInitialized.value || _cameraController == null) return;
 
     try {
+      // Lock orientation to current orientation only when recording starts
+      // This prevents any rotation during recording
+      // Note: We allow both landscape orientations to prevent forced rotation
+      await SystemChrome.setPreferredOrientations(
+        isLandscape
+            ? [
+                DeviceOrientation.landscapeLeft,
+                DeviceOrientation.landscapeRight,
+              ]
+            : [DeviceOrientation.portraitUp],
+      );
+
       final Directory appDir = await getApplicationDocumentsDirectory();
       final String fileName =
           'recording_${DateTime.now().millisecondsSinceEpoch}.mp4';
@@ -184,6 +197,14 @@ class CameraRecordingController extends GetxController {
 
       isRecording.value = false;
       _recordingTimer?.cancel();
+
+      // Unlock orientation when recording stops
+      await SystemChrome.setPreferredOrientations(const [
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.landscapeRight,
+      ]);
 
       // Save video file
       await videoFile.saveTo(recordingPath.value);
