@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:task_shark_stack/widgets/camera_action_bar.dart';
 import 'package:task_shark_stack/widgets/camera_bottom_controls.dart';
@@ -33,40 +34,67 @@ class RecordingScreen extends StatelessWidget {
           return const _LoadingWidget();
         }
 
-        return Stack(
-          children: [
-            // Camera Preview - Full Screen
-            Positioned.fill(child: CameraPreview(controller.cameraController!)),
+        return isLandscape
+            ? Row(
+                children: [
+                  // Camera Preview - Takes remaining space
+                  Expanded(
+                    child: Stack(
+                      children: [
+                        // Camera Preview - Full Screen
+                        Positioned.fill(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20.r),
+                            child: CameraPreview(controller.cameraController!),
+                          ),
+                        ),
 
-            // Top bar with close button and upload indicator
-            isLandscape
-                ? CameraTopBarLandscape(controller: controller)
-                : CameraTopBar(controller: controller),
+                        // Top bar with close button and upload indicator
+                        CameraTopBarLandscape(controller: controller),
 
-            // Zoom controls in the middle
-            isLandscape
-                ? CameraZoomControlsLandscape(controller: controller)
-                : CameraZoomControls(controller: controller),
+                        // Zoom controls in the middle
+                        CameraZoomControlsLandscape(controller: controller),
 
-            // Bottom controls with settings and record button
-            isLandscape
-                ? CameraBottomControlsLandscape(controller: controller)
-                : CameraBottomControls(controller: controller),
+                        // Bottom controls with settings and record button
+                        CameraBottomControlsLandscape(controller: controller),
+                      ],
+                    ),
+                  ),
+                  // Action bar on the right side
+                  CameraActionBarLandscape(controller: controller),
+                ],
+              )
+            : Stack(
+                children: [
+                  // Camera Preview - Full Screen
+                  Positioned.fill(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20.r),
+                      child: CameraPreview(controller.cameraController!),
+                    ),
+                  ),
 
-            // Bottom action bar with upload, save toggle, and live button
-            isLandscape
-                ? CameraActionBarLandscape(controller: controller)
-                : CameraActionBar(controller: controller),
+                  // Top bar with close button and upload indicator
+                  CameraTopBar(controller: controller),
 
-            // Recording indicator (only shown when recording)
-            // if (controller.isRecording.value)
-            //   CameraRecordingIndicator(controller: controller),
+                  // Zoom controls in the middle
+                  CameraZoomControls(controller: controller),
 
-            // Settings bottom sheet (only shown when settings are open)
-            // if (controller.showSettingsSheet.value)
-            //   CameraSettingsSheet(controller: controller),
-          ],
-        );
+                  // Bottom controls with settings and record button
+                  CameraBottomControls(controller: controller),
+
+                  // Bottom action bar with upload, save toggle, and live button
+                  CameraActionBar(controller: controller),
+
+                  // Recording indicator (only shown when recording)
+                  // if (controller.isRecording.value)
+                  //   CameraRecordingIndicator(controller: controller),
+
+                  // Settings bottom sheet (only shown when settings are open)
+                  // if (controller.showSettingsSheet.value)
+                  //   CameraSettingsSheet(controller: controller),
+                ],
+              );
       }),
     );
   }

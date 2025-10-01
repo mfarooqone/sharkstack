@@ -136,20 +136,18 @@ class CameraActionBarLandscape extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
+      top: 0,
+      right: 00.w,
       bottom: 0,
-      left: 0,
-      right: 0,
       child: Container(
-        height: 50.h,
+        width: 50.w,
         color: AppColors.black,
-        child: Row(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _buildUploadMedia(),
-            _buildDivider(),
-            _buildSaveToggle(),
-            _buildDivider(),
             _buildLiveButton(),
+            _buildSaveToggle(),
+            _buildUploadMedia(),
           ],
         ),
       ),
@@ -239,13 +237,6 @@ class CameraActionBarLandscape extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildDivider() {
-    return VerticalDivider(
-      width: 10.w,
-      color: AppColors.white.withValues(alpha: 0.3),
     );
   }
 }
