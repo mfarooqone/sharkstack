@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart' as path;
@@ -101,16 +102,38 @@ class CameraRecordingController extends GetxController {
     return true;
   }
 
-  /// Initialize camera controller with medium resolution for compatibility
+  /// Initialize camera controller with Full HD (landscape) or 4K (portrait)
   Future<void> _initializeCameraController() async {
     try {
+      // Determine resolution based on orientation
+      // Portrait: Try 4K (ultraHigh), Landscape: Try Full HD (high)
+      final isPortrait =
+          Get.context != null &&
+          MediaQuery.of(Get.context!).orientation == Orientation.portrait;
+
+      final targetResolution = isPortrait
+          ? ResolutionPreset
+                .ultraHigh // 4K for portrait
+          : ResolutionPreset.high; // Full HD for landscape
+
       _cameraController = CameraController(
         cameras[selectedCameraIndex],
-        ResolutionPreset.medium, // Medium resolution for better compatibility
+        targetResolution,
         enableAudio: true,
       );
 
       await _cameraController!.initialize();
+
+      // Verify if the resolution is supported
+      final size = _cameraController!.value.previewSize;
+      if (size != null) {
+        final isFullHD = size.height >= 1080 || size.width >= 1080;
+        final is4K = size.height >= 2160 || size.width >= 2160;
+
+        if (!isFullHD && !is4K) {
+          throw Exception('Required quality not supported');
+        }
+      }
 
       // Get zoom capabilities
       maxZoom.value = await _cameraController!.getMaxZoomLevel();
@@ -119,6 +142,11 @@ class CameraRecordingController extends GetxController {
       isInitialized.value = true;
       update(); // Force UI update
     } catch (e) {
+      // Show error if required quality is not supported
+      _showErrorSnackbar(
+        'Quality Not Supported',
+        'This device does not support the required video quality (Full HD 30fps or 4K 30fps).',
+      );
       await _initializeWithFallback();
     }
   }
@@ -156,8 +184,7 @@ class CameraRecordingController extends GetxController {
 
     try {
       // Lock orientation to current orientation only when recording starts
-      // This prevents any rotation during recording
-      // Note: We allow both landscape orientations to prevent forced rotation
+      // This prevents ALL rotation during recording
       await SystemChrome.setPreferredOrientations(
         isLandscape
             ? [
@@ -198,10 +225,9 @@ class CameraRecordingController extends GetxController {
       isRecording.value = false;
       _recordingTimer?.cancel();
 
-      // Unlock orientation when recording stops
+      // Unlock orientation when recording stops (exclude portrait 180°)
       await SystemChrome.setPreferredOrientations(const [
         DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
         DeviceOrientation.landscapeLeft,
         DeviceOrientation.landscapeRight,
       ]);
