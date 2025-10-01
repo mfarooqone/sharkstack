@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:task_shark_stack/widgets/camera_action_bar.dart';
 import 'package:task_shark_stack/widgets/camera_bottom_controls.dart';
 import 'package:task_shark_stack/widgets/camera_recording_indicator.dart';
+import 'package:task_shark_stack/widgets/camera_settings_sheet.dart';
 import 'package:task_shark_stack/widgets/camera_zoom_controls.dart';
 
 import '../controllers/camera_controller.dart';
@@ -63,6 +64,10 @@ class RecordingScreen extends StatelessWidget {
                         // Recording indicator - only when recording
                         if (controller.isRecording.value)
                           CameraRecordingIndicator(controller: controller),
+
+                        // Settings bottom sheet (only shown when settings are open)
+                        if (controller.showSettingsSheet.value)
+                          CameraSettingsSheetLandscape(controller: controller),
                       ],
                     ),
                   ),
@@ -115,8 +120,8 @@ class RecordingScreen extends StatelessWidget {
                     CameraRecordingIndicator(controller: controller),
 
                   // Settings bottom sheet (only shown when settings are open)
-                  // if (controller.showSettingsSheet.value)
-                  //   CameraSettingsSheet(controller: controller),
+                  if (controller.showSettingsSheet.value)
+                    CameraSettingsSheet(controller: controller),
                 ],
               );
       }),
