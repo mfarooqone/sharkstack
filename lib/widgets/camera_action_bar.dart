@@ -130,22 +130,9 @@ class CameraActionBarLandscape extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: 0,
-      right: 00.w,
-      bottom: 0,
-      child: Container(
-        width: 50.w,
-        color: AppColors.black,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _buildLiveButton(),
-            _buildSaveToggle(),
-            _buildUploadMedia(),
-          ],
-        ),
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [_buildLiveButton(), _buildSaveToggle(), _buildUploadMedia()],
     );
   }
 

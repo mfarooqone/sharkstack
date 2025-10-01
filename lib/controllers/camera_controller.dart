@@ -240,6 +240,7 @@ class CameraRecordingController extends GetxController {
       await videoFile.saveTo(recordingPath.value);
 
       // Navigate to trim screen
+
       Get.to(() => VideoTrimScreen(videoPath: recordingPath.value));
     } catch (e) {
       _showErrorSnackbar(
