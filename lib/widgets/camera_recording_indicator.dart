@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 import '../../controllers/camera_controller.dart';
 
@@ -11,36 +12,33 @@ class CameraRecordingIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     return Positioned(
-      top: MediaQuery.of(context).padding.top + 80.h,
-      left: 20.w,
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-        decoration: BoxDecoration(
-          color: Colors.red,
-          borderRadius: BorderRadius.circular(20.r),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 8.w,
-              height: 8.w,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-              ),
+      top: MediaQuery.of(context).padding.top + (isLandscape ? 5.h : 10.h),
+      left: 0,
+      right: 0,
+      child: Center(
+        child: Obx(
+          () => Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: isLandscape ? 6.w : 12.w,
+              vertical: isLandscape ? 4.h : 8.h,
             ),
-            SizedBox(width: 8.w),
-            Text(
+            decoration: BoxDecoration(
+              color: Colors.black.withValues(alpha: 0.3),
+              borderRadius: BorderRadius.circular(isLandscape ? 10.r : 20.r),
+            ),
+            child: Text(
               controller.formatDuration(controller.recordingDuration.value),
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 12.sp,
+                fontSize: isLandscape ? 6.sp : 12.sp,
                 fontWeight: FontWeight.w500,
               ),
             ),
-          ],
+          ),
         ),
       ),
     );

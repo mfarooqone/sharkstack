@@ -9,6 +9,7 @@ import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../screens/video_trim_screen.dart';
 import '../utils/app_colors.dart';
 import '../utils/app_labels.dart';
 
@@ -120,6 +121,9 @@ class CameraRecordingController extends GetxController {
         cameras[selectedCameraIndex],
         targetResolution,
         enableAudio: true,
+        imageFormatGroup: Platform.isIOS
+            ? ImageFormatGroup.bgra8888
+            : ImageFormatGroup.yuv420,
       );
 
       await _cameraController!.initialize();
@@ -232,14 +236,11 @@ class CameraRecordingController extends GetxController {
         DeviceOrientation.landscapeRight,
       ]);
 
-      // Save video file
+      // Save video file temporarily
       await videoFile.saveTo(recordingPath.value);
 
-      _showSuccessSnackbar(
-        AppLabels.recordingComplete,
-        AppLabels.videoSavedSuccessfully,
-      );
-      Get.back(); // Return to home screen
+      // Navigate to trim screen
+      Get.to(() => VideoTrimScreen(videoPath: recordingPath.value));
     } catch (e) {
       _showErrorSnackbar(
         AppLabels.recordingError,
@@ -344,16 +345,6 @@ class CameraRecordingController extends GetxController {
       message,
       snackPosition: SnackPosition.TOP,
       backgroundColor: AppColors.red,
-      colorText: AppColors.white,
-    );
-  }
-
-  void _showSuccessSnackbar(String title, String message) {
-    Get.snackbar(
-      title,
-      message,
-      snackPosition: SnackPosition.TOP,
-      backgroundColor: AppColors.green,
       colorText: AppColors.white,
     );
   }
