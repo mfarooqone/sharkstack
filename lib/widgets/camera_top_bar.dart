@@ -92,3 +92,97 @@ class CameraTopBar extends StatelessWidget {
     );
   }
 }
+
+/// Top bar widget with close button and upload indicator
+class CameraTopBarLandscape extends StatelessWidget {
+  final CameraRecordingController controller;
+
+  const CameraTopBarLandscape({super.key, required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        // Upload indicator at top
+        Positioned(
+          top: MediaQuery.of(context).padding.top + 20.h,
+          right: 20.w,
+          child: _buildUploadIndicator(),
+        ),
+        // Close button at bottom
+        Positioned(
+          bottom: MediaQuery.of(context).padding.bottom + 20.h,
+          right: 20.w,
+          child: _buildCloseButton(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCloseButton() {
+    return Container(
+      width: 20.w,
+      height: 20.w,
+      decoration: BoxDecoration(
+        color: AppColors.black.withValues(alpha: 0.6),
+        shape: BoxShape.circle,
+      ),
+      child: IconButton(
+        onPressed: () => Get.back(),
+        icon: Icon(Icons.close, color: AppColors.white, size: 10.sp),
+      ),
+    );
+  }
+
+  Widget _buildUploadIndicator() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: AppColors.black.withValues(alpha: 0.6),
+            shape: BoxShape.circle,
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(6.w),
+            child: Center(
+              child: Text(
+                'SS2',
+                style: AppTextStyle.bodySmall.copyWith(
+                  color: AppColors.pink,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ),
+        SizedBox(width: 8.w),
+        Obx(
+          () => Badge(
+            backgroundColor: AppColors.red,
+            label: Text(
+              controller.uploadCount.value.toString(),
+              style: AppTextStyle.bodySmall.copyWith(
+                color: AppColors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            child: Container(
+              width: 20.w,
+              height: 20.w,
+              decoration: BoxDecoration(
+                color: AppColors.black.withValues(alpha: 0.3),
+                shape: BoxShape.circle,
+              ),
+              child: RotatedBox(
+                quarterTurns: 3,
+                child: Icon(Icons.logout, color: AppColors.white, size: 10.sp),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
