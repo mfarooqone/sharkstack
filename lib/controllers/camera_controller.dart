@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
@@ -54,14 +53,12 @@ class CameraRecordingController extends GetxController {
   void onInit() {
     super.onInit();
     _initializeCamera();
-    _setupOrientationListener();
   }
 
   @override
   void onClose() {
     _cameraController?.dispose();
     _recordingTimer?.cancel();
-    _resetOrientation();
     super.onClose();
   }
 
@@ -150,24 +147,6 @@ class CameraRecordingController extends GetxController {
         'Failed to initialize camera with any quality setting.',
       );
     }
-  }
-
-  /// Setup orientation listener for landscape/portrait support
-  void _setupOrientationListener() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
-  }
-
-  /// Reset orientation to portrait only
-  void _resetOrientation() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
   }
 
   /// Start video recording
