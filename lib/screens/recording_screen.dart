@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:task_shark_stack/widgets/camera_action_bar.dart';
 import 'package:task_shark_stack/widgets/camera_bottom_controls.dart';
+import 'package:task_shark_stack/widgets/camera_recording_indicator.dart';
 import 'package:task_shark_stack/widgets/camera_zoom_controls.dart';
 
 import '../controllers/camera_controller.dart';
@@ -49,19 +50,30 @@ class RecordingScreen extends StatelessWidget {
                           ),
                         ),
 
-                        // Top bar with close button and upload indicator
-                        CameraTopBarLandscape(controller: controller),
+                        // Top bar with close button and upload indicator - only when not recording
+                        if (!controller.isRecording.value)
+                          CameraTopBarLandscape(controller: controller),
 
-                        // Zoom controls in the middle
+                        // Bottom controls with settings and record button - always visible
+                        CameraBottomControlsLandscape(controller: controller),
+
+                        // Zoom controls - always visible
                         CameraZoomControlsLandscape(controller: controller),
 
-                        // Bottom controls with settings and record button
-                        CameraBottomControlsLandscape(controller: controller),
+                        // Recording indicator - only when recording
+                        if (controller.isRecording.value)
+                          CameraRecordingIndicator(controller: controller),
                       ],
                     ),
                   ),
-                  // Action bar on the right side
-                  CameraActionBarLandscape(controller: controller),
+                  // Action bar on the right side - always show black area, content only when not recording
+                  Container(
+                    width: 80.w,
+                    color: AppColors.black,
+                    child: controller.isRecording.value
+                        ? null // Empty black area when recording
+                        : CameraActionBarLandscape(controller: controller),
+                  ),
                 ],
               )
             : Stack(
@@ -74,21 +86,33 @@ class RecordingScreen extends StatelessWidget {
                     ),
                   ),
 
-                  // Top bar with close button and upload indicator
-                  CameraTopBar(controller: controller),
+                  // Top bar with close button and upload indicator - only when not recording
+                  if (!controller.isRecording.value)
+                    CameraTopBar(controller: controller),
 
-                  // Zoom controls in the middle
-                  CameraZoomControls(controller: controller),
-
-                  // Bottom controls with settings and record button
+                  // Bottom controls with settings and record button - always visible
                   CameraBottomControls(controller: controller),
 
-                  // Bottom action bar with upload, save toggle, and live button
-                  CameraActionBar(controller: controller),
+                  // Bottom action bar - always show black area, content only when not recording
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      height: 100.h,
+                      color: AppColors.black,
+                      child: controller.isRecording.value
+                          ? null // Empty black area when recording
+                          : CameraActionBar(controller: controller),
+                    ),
+                  ),
 
-                  // Recording indicator (only shown when recording)
-                  // if (controller.isRecording.value)
-                  //   CameraRecordingIndicator(controller: controller),
+                  // Zoom controls - always visible
+                  CameraZoomControls(controller: controller),
+
+                  // Recording indicator - only when recording
+                  if (controller.isRecording.value)
+                    CameraRecordingIndicator(controller: controller),
 
                   // Settings bottom sheet (only shown when settings are open)
                   // if (controller.showSettingsSheet.value)

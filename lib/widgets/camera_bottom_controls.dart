@@ -68,30 +68,28 @@ class CameraBottomControls extends StatelessWidget {
         height: 60.w,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Colors.red,
-          border: Border.all(
-            color: Colors.red.withValues(alpha: 0.5),
-            width: 4,
-          ),
+          color: controller.isRecording.value
+              ? Colors
+                    .red // Darker red when recording
+              : Colors.red.withValues(
+                  alpha: 0.2,
+                ), // Solid bright red when not recording
         ),
         child: Center(
-          child: controller.isRecording.value
-              ? Container(
-                  width: 30.w,
-                  height: 30.w,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(4.r),
-                  ),
-                )
-              : Container(
-                  width: 60.w,
-                  height: 60.w,
-                  decoration: const BoxDecoration(
-                    color: Colors.red,
-                    shape: BoxShape.circle,
-                  ),
-                ),
+          child: Padding(
+            padding: EdgeInsets.all(8.w),
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: controller.isRecording.value
+                    ? Colors
+                          .red // Darker red when recording
+                    : Colors.red.withValues(
+                        alpha: 0.2,
+                      ), // Solid bright red when not recording
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -192,30 +190,28 @@ class CameraBottomControlsLandscape extends StatelessWidget {
         height: 30.w,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Colors.red,
-          border: Border.all(
-            color: Colors.red.withValues(alpha: 0.5),
-            width: 2,
-          ),
+          color: controller.isRecording.value
+              ? Colors
+                    .red // Darker red when recording
+              : Colors.red.withValues(
+                  alpha: 0.2,
+                ), // Solid bright red when not recording
         ),
         child: Center(
-          child: controller.isRecording.value
-              ? Container(
-                  width: 15.w,
-                  height: 15.w,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(2.r),
-                  ),
-                )
-              : Container(
-                  width: 30.w,
-                  height: 30.w,
-                  decoration: const BoxDecoration(
-                    color: Colors.red,
-                    shape: BoxShape.circle,
-                  ),
-                ),
+          child: Padding(
+            padding: EdgeInsets.all(4.w),
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: controller.isRecording.value
+                    ? Colors
+                          .red // Darker red when recording
+                    : Colors.red.withValues(
+                        alpha: 0.2,
+                      ), // Solid bright red when not recording
+              ),
+            ),
+          ),
         ),
       ),
     );

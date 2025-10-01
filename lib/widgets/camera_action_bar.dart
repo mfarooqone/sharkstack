@@ -15,23 +15,18 @@ class CameraActionBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      bottom: 0,
-      left: 0,
-      right: 0,
-      child: Container(
-        height: 100.h,
-        color: AppColors.black,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _buildUploadMedia(),
-            _buildDivider(),
-            _buildSaveToggle(),
-            _buildDivider(),
-            _buildLiveButton(),
-          ],
-        ),
+    return Container(
+      height: 100.h,
+      color: AppColors.black,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _buildUploadMedia(),
+          _buildDivider(),
+          _buildSaveToggle(),
+          _buildDivider(),
+          _buildLiveButton(),
+        ],
       ),
     );
   }
@@ -193,7 +188,7 @@ class CameraActionBarLandscape extends StatelessWidget {
         SizedBox(height: 4.h),
         Obx(
           () => Transform.scale(
-            scale: 0.35,
+            scale: 0.65,
             child: Switch(
               value: controller.saveToDevice.value,
               onChanged: (value) => controller.toggleSaveToDevice(),
