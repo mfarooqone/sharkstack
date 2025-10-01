@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:task_shark_stack/widgets/camera_bottom_controls.dart';
 import 'package:task_shark_stack/widgets/camera_zoom_controls.dart';
 
 import '../controllers/camera_controller.dart';
@@ -47,7 +48,9 @@ class RecordingScreen extends StatelessWidget {
                 : CameraZoomControls(controller: controller),
 
             // Bottom controls with settings and record button
-            // CameraBottomControls(controller: controller),
+            isLandscape
+                ? CameraBottomControlsLandscape(controller: controller)
+                : CameraBottomControls(controller: controller),
 
             // Bottom action bar with upload, save toggle, and live button
             // CameraActionBar(controller: controller),
